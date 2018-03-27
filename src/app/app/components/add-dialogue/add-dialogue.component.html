@@ -1,0 +1,24 @@
+<h2 mat-dialog-title color="primary">Aggiungi un progetto</h2>
+<mat-dialog-content>
+  <div class="form-container">
+    <mat-form-field>
+      <input matInput placeholder="Nome">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <textarea matInput placeholder="Dettagli" style="height:80px"></textarea>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-select placeholder="Ambito">
+        <mat-option value="option">Personale</mat-option>
+        <mat-option value="option">Lavoro</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close >Cancella</button>
+  <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="accent">Aggiungi</button>
+</mat-dialog-actions>
