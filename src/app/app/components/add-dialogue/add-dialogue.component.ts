@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
 
 @Component({
   selector: 'app-add-dialogue',
@@ -7,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddDialogueComponent implements OnInit {
 
-  constructor() { }
+  project: any = {
+    name: '',
+    description: '',
+    category: '',
+    createdAt: new Date()
+  };
+
+  constructor(public thisDialogRef: MatDialogRef<AddDialogueComponent>, @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnInit() {
+    if (this.data) {
+      this.project = this.data;
+    }
+  }
+
+  onCloseConfirm() {
+    this.thisDialogRef.close(this.project);
+  }
+
+  onCloseCancel() {
+    this.thisDialogRef.close();
   }
 
 }

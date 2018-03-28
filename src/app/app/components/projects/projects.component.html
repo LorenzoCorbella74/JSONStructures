@@ -1,0 +1,69 @@
+<div fxLayout="row" fxLayout.xs="column">
+  <mat-card fxFlex="50%;" fxFlex.xs="100%">
+    <mat-card-title class="text-center">
+      Progetti
+<!--       <span>
+          <mat-menu #appMenu="matMenu" yPosition="above">
+              <button mat-menu-item>Settings</button>
+              <button mat-menu-item>Help</button>
+            </mat-menu>
+            
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+      </span> -->
+      
+    </mat-card-title>
+    
+
+    <mat-card-content>
+      <mat-card class="project-card" *ngFor="let project of projects">
+
+        <div class="full-size">
+          <mat-card-header>
+            <mat-card-title>{{project.name}}</mat-card-title>
+            <mat-card-subtitle>{{project.createdAt}}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p>
+              {{project.description}}
+            </p>
+          </mat-card-content>
+        </div>
+
+        <div>
+          <mat-card-actions>
+            <div class="button-row">
+              <button mat-mini-fab color="primary" (click)="openEditDialog(project)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-mini-fab color="accent" (click)="deleteProject(project)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-actions>
+        </div>
+
+      </mat-card>
+
+    </mat-card-content>
+
+    <mat-card-footer class="text-center">Made with love in Rome</mat-card-footer>
+  </mat-card>
+
+  <mat-card fxFlex="50%;" fxFlex.xs="100%">
+
+    <mat-card-title class="text-center">Streams</mat-card-title>
+
+    <mat-card-content>
+      <h2>Right Column </h2>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<span class="add-project">
+  <button mat-fab (click)="openAddDialog()">
+    <mat-icon>add</mat-icon>
+  </button>
+</span>

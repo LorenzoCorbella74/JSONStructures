@@ -16,26 +16,7 @@
       <button mat-menu-item>Sign Out</button>
   </mat-menu>
 
-  <mat-card>    
-    <mat-card-title class="center">Progetti</mat-card-title>
-    <mat-card-content>
-
-       <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile *ngFor="let project of projects">
-          <h3>{{project.name}}</h3>
-          <button mat-icon-button (click)="showInfo(project.id)">
-              <mat-icon>info</mat-icon>
-           </button>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-card-content>
-    <mat-card-footer class="center">Made with love in Rome</mat-card-footer>
-  </mat-card>   
-
-  <span class="done">
-    <button mat-fab (click)="openAddDialog()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </span>
+  <!-- routes -->
+  <router-outlet></router-outlet>
 </div>
 
