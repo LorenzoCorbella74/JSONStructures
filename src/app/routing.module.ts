@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 
 // COMPONENTS
 import { ProjectsComponent } from './app/components/projects/projects.component';
+import { StructuresComponent } from './app/components/structures/structures.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'projects', pathMatch: 'full' },
-  { path: 'projects', component: ProjectsComponent }/* ,
-  { path: 'structures', component: ProjectsComponent } */
+  { path: 'projects', component: ProjectsComponent },
+  { path: 'structures/:id', component: StructuresComponent }
 ]
 @NgModule({
   exports: [

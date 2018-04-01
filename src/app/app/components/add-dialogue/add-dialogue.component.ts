@@ -24,8 +24,10 @@ export class AddDialogueComponent implements OnInit {
     }
   }
 
-  onCloseConfirm() {
-    this.thisDialogRef.close(this.project);
+  onCloseConfirm(form) {
+    if (form.valid) {
+      this.thisDialogRef.close(this.project);
+    }
   }
 
   onCloseCancel() {
