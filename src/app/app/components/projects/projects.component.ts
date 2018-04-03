@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-  
+
   projects:        any[];
   selectedProject: any = {};
   streams:         any[];
   displayedColumns = [ 'name', 'structures', 'actions'];
 
-  loading = false;
+  loadingProjects = false;
+  loadingStreams = false;
 
   constructor(
     public dialog: MatDialog,
@@ -25,33 +26,52 @@ export class ProjectsComponent implements OnInit {
     private mem: LocalStorageService
   ) {}
 
-  ngOnInit() { 
-    this.projects = [
-      { id: '1', name: 'Esempio 1', description: 'bla bla...', category: 'Personale', createdAt: '', streams: [] },
-      { id: '2', name: 'Esempio 2', description: 'bla bla...', category: 'Lavoro', createdAt: '', streams: [] },
-      { id: '3', name: 'Esempio 3', description: 'bla bla...', category: 'Personale', createdAt: '', streams: [] },
-      { id: '4', name: 'Esempio 4', description: 'bla bla...', category: 'Lavoro', createdAt: '', streams: [] },
-    ];
+  ngOnInit() {
 
-    const sel = this.mem.get('selectedProject');
+    this.loadProjects(1); //carica i progetti dell'utente
+
+  }
+
+
+  loadProjects(userId:number){
+    this.loadingProjects = true;
+    setTimeout(() => {
+      this.loadingProjects = false;
+      this.projects = [
+        { id: '1', name: 'Esempio 1', description: 'bla bla...', category: 'Personale', createdAt: '', streams: [] },
+        { id: '2', name: 'Esempio 2', description: 'bla bla...', category: 'Lavoro', createdAt: '', streams: [] },
+        { id: '3', name: 'Esempio 3', description: 'bla bla...', category: 'Personale', createdAt: '', streams: [] },
+        { id: '4', name: 'Esempio 4', description: 'bla bla...', category: 'Lavoro', createdAt: '', streams: [] },
+      ];
+      const sel = this.mem.get('selectedProject');
     if (sel) {
       this.selectedProject = sel;
       this.loadStreams(this.selectedProject.id);
     }
+    }, 1000);
   }
 
   loadStreams(id: number) {
-    this.loading = true;
+    this.loadingStreams = true;
     this.streams = [];
     // MOCK DATA
     setTimeout(() => {
-      this.loading = false;
+      this.loadingStreams = false;
       this.streams = [
         { id: 1, name: 'customerManagement', structures: [
-          {id:1, name:'read'},{id:2, name:'ibans'},{id:3, name:'yourdesire'},{id:4, name:'myfortune'}
+          { id: 1, name: 'read' },
+          { id: 2, name: 'ibans' },
+          { id: 3, name: 'yourdesire' },
+          { id: 4, name: 'myfortune' }
         ], createdAt: '' },
-        { id: 2, name: 'customerProducts', structures: [{id:6, name:'readMe'},{id:7, name:'profiles'}], createdAt: '' },
-        { id: 3, name: 'FiscalCode', structures:[{id:8, name:'YoyrProfile'},{id:9, name:'myProfiles'}], createdAt: '' },
+        { id: 2, name: 'customerProducts', structures: [
+          { id: 6, name: 'readMe' },
+          { id: 7, name: 'profiles' }
+        ], createdAt: '' },
+        { id: 3, name: 'FiscalCode', structures:[
+          { id: 8, name: 'YoyrProfile' },
+          { id: 9, name: 'myProfiles' }
+        ], createdAt: '' },
         { id: 4, name: 'nationalities', structures: [], createdAt: '' }
       ];
     }, 1000);
@@ -81,16 +101,17 @@ export class ProjectsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog result: ', result);
-      this.projects.push(result);
+      if (result) {
+        console.log('Dialog result: ', result);
+        this.projects.push(result);
+      }
     });
   }
 
   onSelect(project: any): void {
     this.selectedProject = project;
     this.mem.set('selectedProject', project);
-    // si caricano gli stream del progetto
-    this.loadStreams(project.id);
+    this.loadStreams(project.id); // si caricano gli stream del progetto
   }
 
   openAddStream(){

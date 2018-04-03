@@ -1,27 +1,19 @@
 <div fxLayout="row" fxLayout.xs="column">
   <mat-card fxFlex="50%;" fxFlex.xs="100%">
-    <mat-card-title class="text-center">
-      Progetti
-<!--       <span>
-          <mat-menu #appMenu="matMenu" yPosition="above">
-              <button mat-menu-item>Settings</button>
-              <button mat-menu-item>Help</button>
-            </mat-menu>
-            
-            <button mat-icon-button [matMenuTriggerFor]="appMenu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-      </span> -->
-      
-    </mat-card-title>
-    
 
-    <mat-card-content>
-      <mat-card 
-      class="project-card" 
-      *ngFor="let project of projects" 
-      [class.selected]="project.id == selectedProject.id"
-      (click) ="onSelect(project)">
+    <!-- TITLE IN TOOLBAR -->
+    <mat-toolbar>
+      <span>Progetti</span>
+      <button mat-fab (click)="openAddProject()" mat-tooltip="Aggiungi un progetto" tooltip-position="below">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!-- SPINNER -->
+    <mat-progress-bar mode="indeterminate" *ngIf="loadingProjects"></mat-progress-bar>
+
+    <mat-card-content *ngIf="!loadingProjects">
+      <mat-card class="project-card" *ngFor="let project of projects" [class.selected]="project.id == selectedProject.id" (click)="onSelect(project)">
 
         <div class="full-size">
           <mat-card-header>
@@ -53,52 +45,58 @@
 
     </mat-card-content>
 
-    <mat-card-footer class="text-center">Made with love in Rome</mat-card-footer>
   </mat-card>
 
   <mat-card fxFlex="50%;" fxFlex.xs="100%">
 
+
+    <!-- TITLE IN TOOLBAR -->
+    <mat-toolbar>
+      <span>Streams</span>
+      <button mat-fab (click)="openAddStream()" mat-tooltip="Aggiungi uno stream al progetto selezionato" tooltip-position="below">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar>
+
     <!-- SPINNER -->
-    <mat-spinner *ngIf="loading"></mat-spinner>
+    <mat-progress-bar mode="indeterminate" *ngIf="loadingStreams"></mat-progress-bar>
 
-    <mat-card-title class="text-center">JSON Streams</mat-card-title>
-
-    <mat-card-content>
+    <mat-card-content *ngIf="!loading">
       <div class="table-container mat-elevation-z8">
         <mat-table #table [dataSource]="streams">
-      
+
           <!-- Name Column -->
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
           </ng-container>
-      
+
           <!-- Weight Column -->
           <ng-container matColumnDef="structures">
             <mat-header-cell *matHeaderCellDef> structures </mat-header-cell>
-            <mat-cell *matCellDef="let element"> 
-                <mat-chip-list>
-                    <mat-chip *ngFor="let stream of element.structures">{{stream.name}}</mat-chip>
-                    
-                  </mat-chip-list>
+            <mat-cell *matCellDef="let element">
+              <mat-chip-list>
+                <mat-chip *ngFor="let stream of element.structures">{{stream.name}}</mat-chip>
+
+              </mat-chip-list>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef> actions </mat-header-cell>
-            <mat-cell *matCellDef="let element"> 
-                <button mat-mini-fab color="primary" (click)="editStream(element)">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button mat-mini-fab color="accent" (click)="deleteStream(element)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                  <button mat-mini-fab color="accent" (click)="goToStream(element)">
-                    <mat-icon>navigate_next</mat-icon>
-                  </button>
+            <mat-cell *matCellDef="let element" class="btn-cell">
+              <button mat-mini-fab color="primary" (click)="editStream(element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-mini-fab color="accent" (click)="deleteStream(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-mini-fab color="accent" (click)="goToStream(element)">
+                <mat-icon>navigate_next</mat-icon>
+              </button>
             </mat-cell>
           </ng-container>
-      
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
@@ -106,17 +104,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-
-<!-- BTN ADD PROJECT -->
-<span class="add-project">
-  <button mat-fab (click)="openAddProject()">
-    <mat-icon>add</mat-icon>
-  </button>
-</span>
-
-<!-- BTN ADD  -->
-<span class="add-stream">
-  <button mat-fab (click)="openAddStream()">
-    <mat-icon>add</mat-icon>
-  </button>
-</span>
