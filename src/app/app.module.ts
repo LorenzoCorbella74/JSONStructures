@@ -7,7 +7,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-/* import { NgJsonEditorModule } from 'ang-jsoneditor'; */
 
 // ROUTER
 import { AppRoutingModule } from './routing.module';
@@ -20,6 +19,7 @@ import { StructuresComponent } from './app/components/structures/structures.comp
 
 // SERVICES
 import { LocalStorageService } from './app/services/locastorage.service';
+import { JsonEditorComponent } from './app/components/jsoneditor/jsoneditor.component';
 
 export function createStorage(){
   return new LocalStorageService('str', 'sessionStorage');
@@ -27,7 +27,7 @@ export function createStorage(){
 
 @NgModule({
   declarations: [
-    AppComponent, ProjectsComponent, AddDialogueComponent, StructuresComponent
+    AppComponent, ProjectsComponent, AddDialogueComponent, StructuresComponent, JsonEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -37,8 +37,7 @@ export function createStorage(){
     MaterialModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    AppRoutingModule/* ,
-    NgJsonEditorModule */
+    AppRoutingModule
   ],
   entryComponents: [
     AddDialogueComponent
