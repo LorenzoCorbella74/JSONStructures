@@ -6,6 +6,7 @@
 
 @import "~jsoneditor/dist/jsoneditor.min.css";
 
+
 body {
   margin: 0;
   font-family: Roboto, sans-serif;
@@ -14,6 +15,7 @@ body {
 mat-card {
   max-width: 98%;
   margin: 0 auto;
+  height:100%
 }
 
 .text-center {

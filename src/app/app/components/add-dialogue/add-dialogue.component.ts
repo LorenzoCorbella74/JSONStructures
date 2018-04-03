@@ -15,11 +15,13 @@ export class AddDialogueComponent implements OnInit {
     category: '',
     createdAt: new Date()
   };
+  editMode:boolean = false;
 
   constructor(public thisDialogRef: MatDialogRef<AddDialogueComponent>, @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnInit() {
     if (this.data) {
+      this.editMode = true;
       this.project = this.data;
     }
   }

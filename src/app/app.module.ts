@@ -17,6 +17,7 @@ import { AddDialogueComponent } from './app/components/add-dialogue/add-dialogue
 import { ProjectsComponent } from './app/components/projects/projects.component';
 import { StructuresComponent } from './app/components/structures/structures.component';
 import { LoginComponent } from './app/components/login/login.component';
+import { StreamDialogueComponent } from './app/components/stream-dialogue/stream-dialogue.component';
 
 // SERVICES
 import { LocalStorageService } from './app/services/locastorage.service';
@@ -30,7 +31,7 @@ export function createStorage(){
 
 @NgModule({
   declarations: [
-    AppComponent, ProjectsComponent, AddDialogueComponent, StructuresComponent, JsonEditorComponent, LoginComponent
+    AppComponent, ProjectsComponent, AddDialogueComponent, StreamDialogueComponent, StructuresComponent, JsonEditorComponent, LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +44,8 @@ export function createStorage(){
     AppRoutingModule
   ],
   entryComponents: [
-    AddDialogueComponent
+    AddDialogueComponent,
+    StreamDialogueComponent
   ],
   exports: [
   ],

@@ -1,8 +1,9 @@
 import { LocalStorageService } from './../../services/locastorage.service';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatTable, MatTableDataSource } from '@angular/material';
 import { AddDialogueComponent } from '../add-dialogue/add-dialogue.component';
 import { Router } from '@angular/router';
+import { StreamDialogueComponent } from '../stream-dialogue/stream-dialogue.component';
 
 
 @Component({
@@ -12,28 +13,31 @@ import { Router } from '@angular/router';
 })
 export class ProjectsComponent implements OnInit {
 
-  projects:        any[];
+  projects: any[];
   selectedProject: any = {};
-  streams:         any[];
-  displayedColumns = [ 'name', 'structures', 'actions'];
+  streams: any;
+  displayedColumns = ['name', 'structures', 'actions'];
+  @ViewChild('table') table: MatTable<any>;
 
   loadingProjects = false;
   loadingStreams = false;
 
   constructor(
     public dialog: MatDialog,
-    private _router: Router,
+    private router: Router,
     private mem: LocalStorageService
-  ) {}
+  ) {
 
-  ngOnInit() {
-
-    this.loadProjects(1); //carica i progetti dell'utente
+    this.streams = new MatTableDataSource<any>([]);
 
   }
 
+  ngOnInit() {
+    this.loadProjects(1); //carica i progetti dell'utente 1
+  }
 
-  loadProjects(userId:number){
+
+  loadProjects(userId: number) {
     this.loadingProjects = true;
     setTimeout(() => {
       this.loadingProjects = false;
@@ -44,11 +48,11 @@ export class ProjectsComponent implements OnInit {
         { id: '4', name: 'Esempio 4', description: 'bla bla...', category: 'Lavoro', createdAt: '', streams: [] },
       ];
       const sel = this.mem.get('selectedProject');
-    if (sel) {
-      this.selectedProject = sel;
-      this.loadStreams(this.selectedProject.id);
-    }
-    }, 1000);
+      if (sel) {
+        this.selectedProject = sel;
+        this.loadStreams(this.selectedProject.id);
+      }
+    }, 500);
   }
 
   loadStreams(id: number) {
@@ -58,23 +62,35 @@ export class ProjectsComponent implements OnInit {
     setTimeout(() => {
       this.loadingStreams = false;
       this.streams = [
-        { id: 1, name: 'customerManagement', structures: [
-          { id: 1, name: 'read' },
-          { id: 2, name: 'ibans' },
-          { id: 3, name: 'yourdesire' },
-          { id: 4, name: 'myfortune' }
-        ], createdAt: '' },
-        { id: 2, name: 'customerProducts', structures: [
-          { id: 6, name: 'readMe' },
-          { id: 7, name: 'profiles' }
-        ], createdAt: '' },
-        { id: 3, name: 'FiscalCode', structures:[
-          { id: 8, name: 'YoyrProfile' },
-          { id: 9, name: 'myProfiles' }
-        ], createdAt: '' },
+        {
+          id: 1, name: 'customerManagement', structures: [
+            { id: 1, name: 'read' },
+            { id: 2, name: 'ibans' },
+            { id: 3, name: 'yourdesire' },
+            { id: 4, name: 'myfortune' }
+          ], createdAt: ''
+        },
+        {
+          id: 2, name: 'customerProducts', structures: [
+            { id: 6, name: 'readMe' },
+            { id: 7, name: 'profiles' }
+          ], createdAt: ''
+        },
+        {
+          id: 3, name: 'FiscalCode', structures: [
+            { id: 8, name: 'YoyrProfile' },
+            { id: 9, name: 'myProfiles' }
+          ], createdAt: ''
+        },
         { id: 4, name: 'nationalities', structures: [], createdAt: '' }
       ];
-    }, 1000);
+    }, 500);
+  }
+
+  onSelect(project: any): void {
+    this.selectedProject = project;
+    this.mem.set('selectedProject', project);
+    this.loadStreams(project.id); // si caricano gli stream del progetto
   }
 
   openEditProject(obj: any) {
@@ -96,38 +112,57 @@ export class ProjectsComponent implements OnInit {
 
   openAddProject() {
     const dialogRef = this.dialog.open(AddDialogueComponent, {
-      height: '450px',
-      width: '600px',
+      height: '480px',
+      width: '640px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Dialog result: ', result);
-        this.projects.push(result);
+        this.projects.push(Object.assign({id:6}, result);
       }
     });
   }
 
-  onSelect(project: any): void {
-    this.selectedProject = project;
-    this.mem.set('selectedProject', project);
-    this.loadStreams(project.id); // si caricano gli stream del progetto
-  }
+  openAddStream() {
+    const dialogRef = this.dialog.open(StreamDialogueComponent, {
+      height: '480px',
+      width: '640px',
+    });
 
-  openAddStream(){
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Dialog result: ', result);
+        this.streams.push(result);
+        this.table.renderRows();
+      }
+    });
 
   }
 
   editStream(stream: any) {
-    console.log(stream);
+    const dialogRef = this.dialog.open(StreamDialogueComponent, {
+      height: '480px',
+      width: '640px',
+      data: stream
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      stream = result;
+    });
   }
 
   deleteStream(stream: any) {
-    console.log(stream);
+    this.streams = this.streams.filter(e => e.id !== stream.id);
   }
 
   goToStream(stream: any) {
-    this._router.navigate(['/structures', stream.id]);
+    this.router.navigate(['/structures', stream.id]);
   }
+
+  onRowClicked(row) {
+    console.log('Row clicked: ', row);
+}
 
 }

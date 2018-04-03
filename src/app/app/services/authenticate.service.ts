@@ -12,10 +12,20 @@ export class AuthenticateService {
     password: 'admin'
   }];
 
+  storageKey: string = 'contact-manager-jwt';
+
   constructor(
     private router: Router,
     private mem: LocalStorageService
   ) { }
+
+  setToken(token: string) {
+    this.mem.set(this.storageKey, token);
+  }
+
+  getToken() {
+    return this.mem.get(this.storageKey);
+  }
 
   logout() {
     this.mem.clear('user');
@@ -39,6 +49,10 @@ export class AuthenticateService {
       return false;
     }
   }
+
+  /* isLoggedIn() {
+    return this.getToken() !== null;
+  } */
 
 
 }

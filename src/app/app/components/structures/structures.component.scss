@@ -1,8 +1,16 @@
+mat-view.mat-view{
+  min-height:640px;
+  overflow-x: scroll;
+}
+
 .editor-view {
   display: inline-block;
   margin: 1%;
-  min-height: 90%;
-  width: 30%;
-  min-width: 250px;
+  min-height: 640px;
+  min-width: 480px;
+}
+
+json-editor > div > div > div.jsoneditor-outer.has-nav-bar{
+  min-height: 640px;
 }
 
