@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "gold": "ng build --prod && node ./bin/www",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -25,9 +26,19 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "ang-jsoneditor": "^1.5.12",
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
     "core-js": "^2.4.1",
+    "express": "^4.16.3",
     "hammerjs": "^2.0.8",
+    "jsonwebtoken": "^8.2.1",
+    "mongoose": "^5.0.13",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "rxjs": "^5.5.6",
+    "serve-favicon": "^2.5.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
