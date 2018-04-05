@@ -41,7 +41,7 @@ router.post('/signin', function(req, res) {
           // if user is found and password is right create a token
           var token = jwt.sign(user.toJSON(), config.secret);
           // return the information including token as JSON
-          res.json({success: true, token: 'JWT ' + token});
+          res.json({success: true, token: 'JWT ' + token, id:user._id});
         } else {
           res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
         }
@@ -72,6 +72,7 @@ router.post('/project', passport.authenticate('jwt', { session: false}), functio
   }
 });
 
+// recupera tutti i progetti
 router.get('/project', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
   if (token) {
@@ -79,6 +80,89 @@ router.get('/project', passport.authenticate('jwt', { session: false}), function
       if (err) return next(err);
       res.json(projects);
     });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+// recupera il singolo progetto
+router.get('/project/:projectId', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Project.findById(req.params.projectId, function(err, project) {
+      if(err) {
+          console.log(err);
+          if(err.kind === 'ObjectId') {
+              return res.status(404).send({success:false, message: "Project not found with id " + req.params.projectId});                
+          }
+          return res.status(500).send({success:false, message: "Error retrieving project with id " + req.params.projectId});
+      } 
+
+      if(!project) {
+          return res.status(404).send({success:false, message: "Project not found with id " + req.params.projectId});            
+      }
+
+      res.send(project);
+  });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+// modifica il singolo progetto
+router.put('/project/:projectId', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    // Update a project identified by the projectId in the request
+    Project.findById(req.params.projectId, function(err, project) {
+      if(err) {
+          console.log(err);
+          if(err.kind === 'ObjectId') {
+              return res.status(404).send({success: false,message: "Project not found with id " + req.params.projectId});                
+          }
+          return res.status(500).send({success: false,message: "Error finding project with id " + req.params.projectId});
+      }
+
+      if(!project) {
+          return res.status(404).send({success: false,message: "Project not found with id " + req.params.projectId});            
+      }
+
+      project.name        = req.body.name;
+      project.description = req.body.description;
+      project.category    = req.body.category;
+
+      project.save(function(err, data){
+          if(err) {
+              res.status(500).send({success: false,message: "Could not update project with id " + req.params.projectId});
+          } else {
+              res.send(data);
+          }
+      });
+  });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+router.delete('/project/:projectId', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    // Delete a project with the specified projectId in the request
+    Project.findByIdAndRemove(req.params.projectId, function(err, project) {
+      if(err) {
+          console.log(err);
+          if(err.kind === 'ObjectId') {
+              return res.status(404).send({message: "Project not found with id " + req.params.projectId});                
+          }
+          return res.status(500).send({message: "Could not delete project with id " + req.params.projectId});
+      }
+
+      if(!project) {
+          return res.status(404).send({message: "Project not found with id " + req.params.projectId});
+      }
+
+      res.send({message: "Project deleted successfully!"})
+  });
   } else {
     return res.status(403).send({success: false, msg: 'Unauthorized.'});
   }

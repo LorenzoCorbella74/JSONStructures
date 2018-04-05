@@ -119,7 +119,7 @@ export class ProjectsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Dialog result: ', result);
-        this.projects.push(Object.assign({id:6}, result);
+        this.projects.push(Object.assign({id:6}, result));
       }
     });
   }
