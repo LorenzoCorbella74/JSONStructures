@@ -4,7 +4,8 @@
 
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-/* @import "~jsoneditor/dist/jsoneditor.min.css"; */
+@import "~jsoneditor/dist/jsoneditor.min.css";
+
 
 body {
   margin: 0;
@@ -14,6 +15,7 @@ body {
 mat-card {
   max-width: 98%;
   margin: 0 auto;
+  height:100%
 }
 
 .text-center {

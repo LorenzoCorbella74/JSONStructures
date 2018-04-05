@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { JsonEditorComponent, JsonEditorOptions } from '../jsoneditor/jsoneditor.component';
+
 
 @Component({
   selector: 'app-structures',
@@ -13,9 +14,11 @@ export class StructuresComponent implements OnInit {
 
   streamId: number;
 
-  /* public editorOptions: JsonEditorOptions;
+  public editorOptions: JsonEditorOptions;
   public data: any;
-  @ViewChild(JsonEditorComponent) editor: JsonEditorComponent; */
+  public data2: any;
+  @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
+
 
   constructor(
     private location: Location,
@@ -25,12 +28,13 @@ export class StructuresComponent implements OnInit {
       params => this.streamId = params['id']
     );
 
-    /* this.editorOptions = new JsonEditorOptions();
+    this.editorOptions = new JsonEditorOptions();
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
     //this.options.mode = 'code'; //set only one mode
 
-    this.data = { "products": [{ "name": "car", "product": [{ "name": "honda", "model": [{ "id": "civic", "name": "civic" }, { "id": "accord", "name": "accord" }, { "id": "crv", "name": "crv" }, { "id": "pilot", "name": "pilot" }, { "id": "odyssey", "name": "odyssey" }] }] }] }
-   */}
+    this.data = {"products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]};
+
+  }
 
   ngOnInit() {
     console.log('Id: ', this.streamId);
@@ -38,6 +42,10 @@ export class StructuresComponent implements OnInit {
 
   goBack() {
     this.location.back(); // <-- go back to previous location on cancel
+  }
+
+  addStructures() {
+    //this.dataB.push(this.data2);
   }
 
 }
