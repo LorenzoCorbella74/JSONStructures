@@ -10,12 +10,18 @@ var StreamSchema = new Schema({
     type: String,
     required: false
   },
-  project: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'Project' 
+  project: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project'
   },
+  structures:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Structure'
+    }
+  ],
   createdAt: {
-    type: Date, 
+    type: Date,
     default: Date.now
   }
 });

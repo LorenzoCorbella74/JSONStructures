@@ -3,17 +3,15 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var UserSchema = new Schema({
-  username: {
-        type: String,
-        unique: true,
-        required: true
-    },
-  password: {
-        type: String,
-        required: true
-    }
+  username: { type: String, unique:   true,  required: true },
+  name:     { type: String, unique:   false, required: true },
+  surname:  { type: String, unique:   false, required: true},
+  address:  { type: String, unique:   false, required: false},
+  email:    { type: String, unique:   false, required: true},
+  password: { type: String, unique:   false, required: true}
 });
 
+// prima di salvare bycrypta la password
 UserSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('password') || this.isNew) {
@@ -34,6 +32,7 @@ UserSchema.pre('save', function (next) {
     }
 });
 
+// confronta password
 UserSchema.methods.comparePassword = function (passw, cb) {
     bcrypt.compare(passw, this.password, function (err, isMatch) {
         if (err) {
