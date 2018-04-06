@@ -11,7 +11,6 @@ exports.create = (req, res) => {
         category:    req.body.category,
         user:        req.body.user
       });
-
       newProject.save(function(err) {
         if (err) {
           return res.json({success: false, msg: 'Save project failed.'});
@@ -86,6 +85,7 @@ exports.update = (req, res) => {
         project.name        = req.body.name;
         project.description = req.body.description;
         project.category    = req.body.category;
+        project.user        = req.body.user;
 
         project.save(function(err, data){
             if(err) {
