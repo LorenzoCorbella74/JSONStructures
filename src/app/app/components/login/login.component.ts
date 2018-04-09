@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
   subscription: Subscription[] = [this.loginSub$];
 
   constructor(
+    private http: Http,
     private fb: FormBuilder,
     private auth: AuthenticateService,
     private router: Router,
@@ -59,11 +61,14 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       const payload = this.form.value;
       this.loading = true;
-      this.loginSub$ = this.api.post('/api/signin', payload).subscribe(data => {
+      this.loginSub$ = this.http
+      .post('api/signin', payload)
+      .map(data=>data.json())
+      .subscribe(data => {
         this.loading = false;
-        console.log('User: ', data.data);
-        this.auth.setToken(data.token);
-        this.mem.set('user', data.data);
+        console.log('User: ', data['data']);
+        this.auth.setToken(data['token']);
+        this.mem.set('user', data['data']);
         this.router.navigate(['/projects']);
       },
         err => {

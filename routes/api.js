@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 var passport = require('passport');
-var config   = require('../config/database');
+
 require('../config/passport')(passport);
 var express  = require('express');
-var jwt      = require('jsonwebtoken');
+
 var router   = express.Router();
-var User     = require("../models/user");
-var Project  = require("../models/project");
+/* var User     = require("../models/user");
+var Project  = require("../models/project"); */
 
 const userCtrl      = require('../controllers/userCtrl.js');
 const projectCtrl   = require('../controllers/projectCtrl.js');

@@ -1,5 +1,6 @@
 var express    = require('express');
 var path       = require('path');
+var cors       = require('cors')
 var favicon    = require('serve-favicon');
 var logger     = require('morgan');
 var bodyParser = require('body-parser');
@@ -18,11 +19,12 @@ mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
 
 app.use(passport.initialize());
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use('/books', express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/api', api);
 
 // catch 404 and forward to error handler
@@ -42,5 +44,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(3000, ()=> console.log('Magic happen oh port 3000!'))
 
 module.exports = app;
