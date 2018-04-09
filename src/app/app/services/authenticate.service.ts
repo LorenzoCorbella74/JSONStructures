@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './locastorage.service';
 
-
+export interface User {
+  userName: string;
+  password: string;
+}
 
 @Injectable()
 export class AuthenticateService {
 
-  users = [{
-    username: 'admin',
-    password: 'admin'
-  }];
+  // private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   storageKey: string = 'contact-manager-jwt';
 
   constructor(
     private router: Router,
+
     private mem: LocalStorageService
   ) { }
 
@@ -28,31 +29,16 @@ export class AuthenticateService {
   }
 
   logout() {
+    // this.loggedIn.next(false);
     this.mem.clear('user');
     this.router.navigate(['/login']);
   }
 
-  login(user) {
-    const authenticatedUser = this.users.find(u => u.username === user.username);
-    if (authenticatedUser && authenticatedUser.password === user.password) {
-      this.mem.set('user', authenticatedUser.username);
-      this.router.navigate(['/projects']);
+  isLoggedIn() {
+    if (this.getToken() !== null || this.getToken() !== undefined) {
       return true;
     }
     return false;
+    // return this.loggedIn.asObservable();
   }
-
-  checkIfLogged() {
-    if (this.mem.get('user') !== null) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /* isLoggedIn() {
-    return this.getToken() !== null;
-  } */
-
-
 }

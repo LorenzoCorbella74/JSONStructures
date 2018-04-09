@@ -32,8 +32,8 @@ router.put('/stream/:streamId', passport.authenticate('jwt', { session: false}),
 router.delete('/stream/:streamId', passport.authenticate('jwt', { session: false}), streamCtrl.delete);         // cancella il  stream
 
 // STUCTURES
-router.post('/structure', passport.authenticate('jwt', { session: false}), structureCtrl.create );                       // crea una nuovo structure
-router.get('/structure', passport.authenticate('jwt', { session: false}), structureCtrl.getUserStructures);              // recupera tutti gli structure di un utente
+router.post('/structure', passport.authenticate('jwt', { session: false}), structureCtrl.create );                       // crea una nuova structure
+router.get('/structure', passport.authenticate('jwt', { session: false}), structureCtrl.getUserStructures);              // recupera tutti le structure di un utente
 router.get('/structure/:structureId', passport.authenticate('jwt', { session: false}), structureCtrl.getStructureById);  // recupera il singolo structure passando l'id
 router.put('/structure/:structureId', passport.authenticate('jwt', { session: false}), structureCtrl.update);            // modifica il singolo structure
 router.delete('/structure/:structureId', passport.authenticate('jwt', { session: false}), structureCtrl.delete);         // cancella il  stream

@@ -9,11 +9,12 @@ import { AuthenticateService } from './app/services/authenticate.service';
 })
 export class AppComponent {
 
-  constructor(private auth: AuthenticateService) {
+  constructor(public a: AuthenticateService) {
 
   }
 
   logout(){
-    this.auth.logout();
+    this.a.logout();
   }
+
 }
