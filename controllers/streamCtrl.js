@@ -1,4 +1,4 @@
-const Stream = require('../models/Stream.js');
+const Stream = require('../models/stream.js');
 
 // crea un nuovo stream
 exports.create = (req, res) => {

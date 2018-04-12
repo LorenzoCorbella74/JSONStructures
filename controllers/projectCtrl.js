@@ -1,4 +1,4 @@
-const Project = require('../models/Project.js');
+const Project = require('../models/project.js');
 
 // crea un nuovo progetto
 exports.create = (req, res) => {
@@ -27,21 +27,15 @@ exports.create = (req, res) => {
 
 // recupera tutti i progetti di un utente
 exports.getUserProjects = (req, res) => {
-
-  let userId = req.query.id;
-  if (!userId) {
-    return res.json({
-      success: false,
-      msg: 'Save project failed.'
-    });
-  } else {
-    Project.find({
-      _id: userId
-    }, function (err, projects) {
-      if (err) return next(err);
-      res.json(projects);
-    });
-  }
+    let userId = req.query.userId;
+    if (!userId) {
+      return res.json({ success: false, msg: 'Was not possible to retrieve the project of the user' });
+    } else {
+      Project.find({ user: userId }, function (err, projects) {
+        if (err) return next(err);
+        res.json(projects);
+      });
+    }
 };
 
 // recupera il singolo progetto passando l'id

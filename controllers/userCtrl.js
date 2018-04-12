@@ -1,13 +1,14 @@
-const User = require('../models/User.js');
+const User = require('../models/user.js');
+var jwt      = require('jsonwebtoken');
 var config   = require('../config/database');
 
 // crea un nuovo utente
 exports.create = (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    res.json({ success: false, msg: 'Please pass username and password.' });
+  if (!req.body.userName || !req.body.password) {
+    res.json({ success: false, msg: 'Please pass userName and password.' });
   } else {
     var newUser = new User({
-      username: req.body.username,
+      userName: req.body.userName,
       password: req.body.password
     });
     // save the user
@@ -23,7 +24,7 @@ exports.create = (req, res) => {
 // logga l'utente
 exports.login = (req, res) => {
     User.findOne({
-      username: req.body.username
+      userName: req.body.userName
     }, function(err, user) {
       if (err) throw err;
       if (!user) {
@@ -35,7 +36,7 @@ exports.login = (req, res) => {
             // if user is found and password is right create a token
             var token = jwt.sign(user.toJSON(), config.secret);
             // return the information including token as JSON
-            res.json({success: true, token: 'JWT ' + token, id:user._id, data:user});
+            res.json({success: true, token: 'JWT ' + token, id:user._id});
           } else {
             res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
           }

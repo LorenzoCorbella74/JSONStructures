@@ -6,13 +6,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 
-// import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable()
 export class ApiService {
 
-  private baseUrl = ''/* environment.apiUrl */;
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: Http, private auth: AuthenticateService) { }
 
@@ -38,7 +38,7 @@ export class ApiService {
     headers.append('Authorization', `Bearer ${this.auth.getToken()}`);
 
     const requestOptions = new RequestOptions({
-      url: `${this.baseUrl}/${url}`,
+      url: `/${url}`, /* ${this.baseUrl} */
       method: method,
       headers: headers
     });

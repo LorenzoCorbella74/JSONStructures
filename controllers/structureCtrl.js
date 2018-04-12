@@ -1,4 +1,4 @@
-const Structure = require('../models/Structure.js');
+const Structure = require('../models/structure.js');
 
 // crea una nuova struttura
 exports.create = (req, res) => {
