@@ -36,9 +36,7 @@ app.use((req, res, next) => {
 
 app.use('/api', api);
 
-app.get('/', (req, res) =>
-    res.send(`REST API per la web app JSON Structures.`);
-);
+app.get('/', (req, res) => res.send(`REST API per la web app JSON Structures.`));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
