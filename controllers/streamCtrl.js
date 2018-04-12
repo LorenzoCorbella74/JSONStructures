@@ -2,8 +2,6 @@ const Stream = require('../models/Stream.js');
 
 // crea un nuovo stream
 exports.create = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       console.log(req.body);
       var newStream = new Stream({
         name:        req.body.name,
@@ -18,15 +16,10 @@ exports.create = (req, res) => {
         //si ripassa l'obj con l'_id generato
         res.json({success: true, msg: 'Successful created new stream.', data: newStream });
       });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
 // recupera tutti gli stream di un utente
 exports.getUserStreams = (req, res) => {
-  var token = getToken(req.headers);
-  if (token) {
     let userId = req.query.id;
     if (!userId) {
       return res.json({ success: false, msg: 'Save stream failed.' });
@@ -44,15 +37,10 @@ exports.getUserStreams = (req, res) => {
         res.json(streams);
       });
     }
-  } else {
-    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
-  }
 };
 
 // recupera il singolo stream passando l'id
 exports.getStreamById = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       Stream.findById(req.params.streamId, function(err, stream) {
         if(err) {
             console.log(err);
@@ -66,16 +54,11 @@ exports.getStreamById = (req, res) => {
         }
         res.send(stream);
     });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
 
 // aggiorna il singolo stream passando l'id
 exports.update = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       // Update a stream identified by the streamId in the request
       Stream.findById(req.params.streamId, function(err, stream) {
         if(err) {
@@ -101,15 +84,10 @@ exports.update = (req, res) => {
             }
         });
     });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
 // cancella il singolo stream passando l'id
 exports.delete = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       // Delete a stream with the specified streamId in the request
       Stream.findByIdAndRemove(req.params.streamId, function(err, stream) {
         if(err) {
@@ -124,20 +102,4 @@ exports.delete = (req, res) => {
         }
         res.send({message: "Stream deleted successfully!"})
     });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
-};
-
-getToken = function (headers) {
-  if (headers && headers.authorization) {
-    var parted = headers.authorization.split(' ');
-    if (parted.length === 2) {
-      return parted[1];
-    } else {
-      return null;
-    }
-  } else {
-    return null;
-  }
 };

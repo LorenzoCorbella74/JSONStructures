@@ -2,8 +2,6 @@ const Structure = require('../models/Structure.js');
 
 // crea una nuova struttura
 exports.create = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       console.log(req.body);
       var newStructure = new Structure({
         name:       req.body.name,
@@ -17,15 +15,10 @@ exports.create = (req, res) => {
         //si ripassa l'obj con l'_id generato
         res.json({success: true, msg: 'Successful created new structure.', data: newStructure });
       });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
 // recupera tutte le structure di un utente
 exports.getUserStructures = (req, res) => {
-  var token = getToken(req.headers);
-  if (token) {
     let userId = req.query.id;
     if (!userId) {
       return res.json({ success: false, msg: 'Save structure failed.' });
@@ -35,15 +28,10 @@ exports.getUserStructures = (req, res) => {
         res.json(structures);
       });
     }
-  } else {
-    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
-  }
 };
 
 // recupera il singolo structure passando l'id
 exports.getStructureById = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       Structure.findById(req.params.structureId, function(err, structure) {
         if(err) {
             console.log(err);
@@ -57,16 +45,11 @@ exports.getStructureById = (req, res) => {
         }
         res.send(structure);
     });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
 
 // aggiorna il singolo structure passando l'id
 exports.update = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       // Update a structure identified by the structureId in the request
       Structure.findById(req.params.structureId, function(err, structure) {
         if(err) {
@@ -94,16 +77,11 @@ exports.update = (req, res) => {
             }
         });
     });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
 
 // cancella il singolo structure passando l'id
 exports.delete = (req, res) => {
-    var token = getToken(req.headers);
-    if (token) {
       // Delete a structure with the specified structureId in the request
       Structure.findByIdAndRemove(req.params.structureId, function(err, structure) {
         if(err) {
@@ -120,20 +98,5 @@ exports.delete = (req, res) => {
 
         res.send({message: "Structure deleted successfully!"})
     });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
 };
 
-getToken = function (headers) {
-  if (headers && headers.authorization) {
-    var parted = headers.authorization.split(' ');
-    if (parted.length === 2) {
-      return parted[1];
-    } else {
-      return null;
-    }
-  } else {
-    return null;
-  }
-};

@@ -1,4 +1,4 @@
 module.exports = {
-  'secret':'meansecure',
+  'secret': 'passwordsicuraabbestia',
   'database': 'mongodb://localhost:27017/JSONSTRUCTURES'
 };

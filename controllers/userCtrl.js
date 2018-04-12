@@ -1,4 +1,5 @@
 const User = require('../models/User.js');
+var config   = require('../config/database');
 
 // crea un nuovo utente
 exports.create = (req, res) => {
@@ -42,4 +43,12 @@ exports.login = (req, res) => {
       }
     });
 };
+
+exports.loginRequired = (req, res, next) => {
+  if (req.user) {
+      next();
+  } else {
+      return res.status(401).json({ message: 'Unauthorized user!'});
+  }
+}
 
